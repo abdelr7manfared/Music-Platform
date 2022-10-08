@@ -52,8 +52,12 @@ artist.save()
 `artist = Artist.objects.get(pk=5)`
 `artist.album_set.create(name="help",release_date=datetime.datetime(2017,11,19),cost=125)`
 #  get the latest released album
+ ### first way
  `Album.objects.order_by('release_date').reverse()[0]`
  -----
+ ### second way
+ `Album.objects.aggregate(Max('cost'))`
+ ----
 `<Album: Name:hh,CreationDate:2022-10-07 09:00:33.362215+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>`
 ## get all albums released before today
 `Album.objects.filter(release_date__lt = timezone.now())
