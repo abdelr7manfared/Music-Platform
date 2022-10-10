@@ -56,8 +56,11 @@ artist.save()
  `Album.objects.order_by('release_date').reverse()[0]`
  -----
  ### second way
- `Album.objects.aggregate(Max('cost'))`
+ `Album.objects.aggregate(Max('release_date'))`
  ----
+ ### third way 
+ `Album.objects.all().latest('release_date')`
+  ---
 `<Album: Name:hh,CreationDate:2022-10-07 09:00:33.362215+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>`
 ## get all albums released before today
 `Album.objects.filter(release_date__lt = timezone.now())
@@ -65,7 +68,7 @@ artist.save()
 -----
 `<QuerySet [<Album: Name:Help i lost!,CreationDate:1997-10-19 00:00:00+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:Help i lost!,CreationDate:2022-10-07 07:52:25.818482+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:LOL!,CreationDate:2022-10-07 07:53:36.946724+00:00,ReleaseDate:2007-11-19 00:00:00+00:00,Cost:15.19>, <Album: Name:lol pro,CreationDate:2022-10-07 08:56:05.430014+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:lol pro,CreationDate:2022-10-07 09:00:21.770458+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:help,CreationDate:2022-10-07 09:02:57.055218+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>, <Album: Name:help,CreationDate:2022-10-07 09:03:09.210007+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>]>`
 ## get all albums released today or before but not after today
-`Album.objects.filter(release_date__lt = timezone.now())`
+`Album.objects.filter(release_date__lte = timezone.now())`
 -----
 `<QuerySet [<Album: Name:Help i lost!,CreationDate:1997-10-19 00:00:00+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:Help i lost!,CreationDate:2022-10-07 07:52:25.818482+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:LOL!,CreationDate:2022-10-07 07:53:36.946724+00:00,ReleaseDate:2007-11-19 00:00:00+00:00,Cost:15.19>, <Album: Name:lol pro,CreationDate:2022-10-07 08:56:05.430014+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:lol pro,CreationDate:2022-10-07 09:00:21.770458+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:help,CreationDate:2022-10-07 09:02:57.055218+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>, <Album: Name:help,CreationDate:2022-10-07 09:03:09.210007+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>]>`
 ## count the total number of albums (hint: count in an optimized manner)
