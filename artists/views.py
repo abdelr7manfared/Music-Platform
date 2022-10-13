@@ -1,17 +1,27 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from .models import Artist
-from albums.form import AlbumForm
 from .form import ArtistForm
+from django.views.generic import TemplateView
 # Create your views here.
-def create(request):
-    form = ArtistForm()
-    if request.method == "POST":
-        form = ArtistForm(request.POST)
-        if form.is_valid(): 
-            form.save()
-            print("Marwan Pablo")
-    return render(request,'createArtist.html',{'form':form})
+class ArtistList(TemplateView):
+    template_name = "ListArtist.html"
+    def get(self,request):
+        return render(request,self.template_name,{'data':Artist.objects.prefetch_related('album_set')})
 
-def listArtist(request):
-    return render(request,'ListArtist.html',{'data':Artist.objects.prefetch_related('album_set')})
+class CreateArtist(TemplateView):
+    template_name = "createArtist.html"
+    form_class = ArtistForm
+    def get(self,request):
+        if request.user.is_authenticated:
+            form = self.form_class()            
+            return render(request,self.template_name,{'form':form})
+        else : 
+            return HttpResponse("User is authenticated")
+    
+    def post(self,request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request,self.template_name,{'form':form})
+

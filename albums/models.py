@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-import albums
 from artists.models import Artist
 from model_utils.models import TimeStampedModel
 # Create your models here.
@@ -11,5 +9,6 @@ class Album(TimeStampedModel):
     artist = models.ForeignKey(Artist,on_delete=models.CASCADE)
     album_approved = models.BooleanField(default=False)
     def __str__(self):
-        return (f"Name:{self.name},Cost:{self.cost}")
+        return (f"Name:{self.name},Cost:{self.cost}")    
+
 
