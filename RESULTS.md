@@ -101,3 +101,13 @@ StageName:artist6 ,SocialLink: https://www.instagram.com/artist6/ <QuerySet []>
 -----
 `<QuerySet [<Album: Name:hh,CreationDate:2022-10-07 09:00:33.362215+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>, <Album: Name:hh,CreationDate:2022-10-07 09:00:59.419060+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>, <Album: Name:hh,CreationDate:2022-10-07 09:01:10.605074+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>, <Album: Name:hh,CreationDate:2022-10-07 09:01:19.665848+00:00,ReleaseDate:2205-01-01 00:00:00+00:00,Cost:8.00>, <Album: Name:lol pro,CreationDate:2022-10-07 08:56:05.430014+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:lol pro,CreationDate:2022-10-07 09:00:21.770458+00:00,ReleaseDate:2005-01-01 00:00:00+00:00,Cost:12.00>, <Album: Name:Help i lost!,CreationDate:1997-10-19 00:00:00+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:Help i lost!,CreationDate:2022-10-07 
 07:52:25.818482+00:00,ReleaseDate:1997-10-19 00:00:00+00:00,Cost:15.19>, <Album: Name:LOL!,CreationDate:2022-10-07 07:53:36.946724+00:00,ReleaseDate:2007-11-19 00:00:00+00:00,Cost:15.19>, <Album: Name:help,CreationDate:2022-10-07 09:02:57.055218+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>, <Album: Name:help,CreationDate:2022-10-07 09:03:09.210007+00:00,ReleaseDate:2017-11-19 00:00:00+00:00,Cost:125.00>]>`
+
+##Modify the artist queryset so that I can order the list of art#sts by the number of their approved albums
+`sorted(Artist.objects.all(),key=lambda t:t.approved_albums())`
+---
+`[<Artist: StageName:artist2 ,SocialLink: https://www.instagram.com/artist2/>,
+ <Artist: StageName:artist3 ,SocialLink: https://www.instagram.com/artist3/>,
+ <Artist: StageName:artist4 ,SocialLink: https://www.instagram.com/artist4/>,
+ <Artist: StageName:artist5 ,SocialLink: https://www.instagram.com/artist5/>,
+ <Artist: StageName:artist6 ,SocialLink: https://www.instagram.com/artist6/>,
+ <Artist: StageName:artist1 ,SocialLink: https://www.instagram.com/artist1/>]`
