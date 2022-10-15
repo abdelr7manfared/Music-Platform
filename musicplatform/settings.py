@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'albums.apps.AlbumsConfig',
     'artists.apps.ArtistsConfig',
-    'imagekit'
+    'imagekit',
+    'rest_framework',
+
 ]
 LOGIN_REDIRECT_URL = '/'
 

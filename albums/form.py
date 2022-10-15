@@ -8,7 +8,6 @@ class AlbumForm(ModelForm):
         help_texts={
         'album_approved':'Approve the album if its name is not explicit'
          }   
-       #widgets={'release_date' : DateInput(attrs={'type': 'date'}),}
     
         
 
