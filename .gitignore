@@ -114,6 +114,7 @@ __pypackages__/
 
 CACHE
 musics
+images
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
