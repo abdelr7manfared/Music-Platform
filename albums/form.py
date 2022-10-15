@@ -1,7 +1,6 @@
 from django.forms import ModelForm
 from .models import Album
-from django.forms.widgets import DateInput
-
+from .models import Song
 class AlbumForm(ModelForm):
     class Meta:
         model = Album
@@ -9,10 +8,11 @@ class AlbumForm(ModelForm):
         help_texts={
         'album_approved':'Approve the album if its name is not explicit'
          }   
-
-        widgets={
-        'release_date' : DateInput(attrs={'type': 'date'}),
-        }
+       #widgets={'release_date' : DateInput(attrs={'type': 'date'}),}
     
+        
 
-
+class SongForm(ModelForm):
+    class Meta:
+        model = Song
+        fields = '__all__'

@@ -1,6 +1,11 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from artists.models import Artist
 from model_utils.models import TimeStampedModel
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
+from django.utils.html import mark_safe
 # Create your models here.
 class Album(TimeStampedModel):
     name = models.CharField(default='New Album',max_length=255)
@@ -9,6 +14,26 @@ class Album(TimeStampedModel):
     artist = models.ForeignKey(Artist,on_delete=models.CASCADE)
     album_approved = models.BooleanField(default=False)
     def __str__(self):
-        return (f"Name:{self.name},Cost:{self.cost}")    
+        return (f"Name:{self.name},Cost:{self.cost},Song:{self.song_set.all()}")    
+    
+
+class Song(models.Model):
+    name = models.CharField(max_length=255,blank=True)
+    image = models.ImageField(blank=False)
+    image_thumbnail = ImageSpecField(source='image',format="JPEG",processors=[ResizeToFill(100, 50)],)
+    audio = models.FileField(upload_to="musics/",blank=False,validators=[FileExtensionValidator(allowed_extensions=['mp3','wav'])])
+    album = models.ForeignKey(Album,on_delete=models.CASCADE)
+    def save(self,*args, **kwargs):
+        if self.name == "":
+            self.name = self.album.name
+        super().save(*args, **kwargs)
+    def __str__(self):
+        return (f"name : {self.name} ,Album_id :{self.album_id}")
+    def image_tag(self):
+            return mark_safe('<img src="%s" height=200px;  width=200px/>' % self.image.url)
+    def music_tag(self):
+        return mark_safe('<audio controls><source src="%s" ></audio>'%self.audio.url)
+    def image_thumbnail_tag(self):
+            return mark_safe('<img src="%s" />' % self.image_thumbnail.url)
 
 
