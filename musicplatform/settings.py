@@ -41,12 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'albums.apps.AlbumsConfig',
     'artists.apps.ArtistsConfig',
+    'users.apps.UsersConfig',
     'imagekit',
     'rest_framework',
+    'knox',
+    'rest_framework.authtoken',
 
 ]
 LOGIN_REDIRECT_URL = '/'
 
+AUTH_USER_MODEL = 'users.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
