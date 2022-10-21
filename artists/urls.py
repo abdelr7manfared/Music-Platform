@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import CreateArtist,ArtistList
 urlpatterns = [
-    path("create/",views.create),
-    path("",views.listArtist)
+    path("create/",CreateArtist.as_view()),
+    path("",ArtistList.as_view())
 ]
