@@ -1,17 +1,13 @@
-from telnetlib import STATUS
 from django.shortcuts import render,get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User
 from .serializers import UserSerializer
-from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
-# Create your views here.
-class ReadOnly(BasePermission):
-    def has_permission(self, request, view):
-        return request.method in SAFE_METHODS
+from rest_framework.permissions import  IsAuthenticatedOrReadOnly,IsAuthenticated,AllowAny
+# Create your views here.\
 
 class UserDetail(APIView):
-    permission_classes = [IsAuthenticated|ReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self,request,pk):
         user = get_object_or_404(User,pk=pk) 
         serializers = UserSerializer(user)
