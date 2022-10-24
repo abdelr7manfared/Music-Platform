@@ -6,7 +6,7 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 class UserDetail(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
-    def get(self,pk):
+    def get(self,request,pk):
         user = get_object_or_404(User,pk=pk) 
         serializers = UserSerializer(user)
         return Response(serializers.data)
