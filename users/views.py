@@ -16,5 +16,11 @@ class UserDetail(APIView):
             serializers.is_valid(raise_exception=True)
             serializers.save()
             return Response(serializers.data)
+    def patch(self,request,pk):
+            user = get_object_or_404(User,pk=pk) 
+            serializers = UserSerializer(user,data=request.data)
+            serializers.is_valid(raise_exception=True)
+            serializers.save()
+            return Response(serializers.data)
         
 
