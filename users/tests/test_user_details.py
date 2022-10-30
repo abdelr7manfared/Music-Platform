@@ -1,28 +1,109 @@
-from rest_framework.test import  APIClient
 from rest_framework import status
 import pytest
-from rest_framework.authtoken.models import Token
-from users.models import User
-
-# Create your tests here.
-
 
 @pytest.mark.django_db
-class TestGetUser:
-    def test_if_user_is_anonymous_return_401(self,api_client):
-        response = api_client.client.put('/user/1/',{'username':"hassan",'email':"sa7a@gmail.com",'bio':"3ash"})
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-    def test_if_user_is_authenticated_return_200(self,api_client):
-        api_client.client.credentials(HTTP_AUTHORIZATION='Token ' + api_client.token)
-        response = api_client.client.put('/user/1/',{'username':"ahmed",'email':"3ash@gmail.com",'bio':"lol ya bro"})
-        assert response.status_code == status.HTTP_200_OK
-        assert response.data['username'] == "ahmed"
-    def test_get_user_data_return_200(self,api_client):
-        response = api_client.client.get('/user/1/')
-        assert response.status_code == status.HTTP_200_OK
-    def test_required_fields_return_400(self,api_client):
-        api_client.client.credentials(HTTP_AUTHORIZATION='Token ' + api_client.token)
-        response = api_client.client.put('/user/1/',{'email':"sa7a@gmail.com",'bio':"3ash"})
-        assert response.status_code == status.HTTP_400_BAD_REQUEST
+def test_get_user_return_200(auth_client):
+    response = auth_client.get("/user/1/")
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert "username" in data
+    assert "id" in data
+    assert "email" in data
+    assert "bio" in data
+@pytest.mark.django_db
+def test_update_user_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",email="ali@gmail.com",bio="LOLyangm")
+    response = cleint.put(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert "id" in data
+    assert data['username'] == payload['username']
+    assert data['email'] == payload['email']
+    assert data['bio'] == payload['bio']
+@pytest.mark.django_db
+def test_update_user_missing_username_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(email="ali@gmail.com",bio="LOLyangm")
+    response = cleint.put(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert "username" in data
 
-    
+@pytest.mark.django_db
+def test_update_user_missing_email_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",bio="LOLyangm")
+    response = cleint.put(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert data['username'] == payload['username']
+    assert data['bio'] == payload['bio']
+        
+
+@pytest.mark.django_db
+def test_update_user_missing_bio_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",email="ali@gmail.com")
+    response = cleint.put(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert data['username'] == payload['username']
+    assert data['email'] == payload['email']
+        
+@pytest.mark.django_db
+def test_partial_update_user_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",email="ali@gmail.com",bio="LOLyangm")
+    response = cleint.patch(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert "id" in data
+    assert data['username'] == payload['username']
+    assert data['email'] == payload['email']
+    assert data['bio'] == payload['bio']
+@pytest.mark.django_db
+def test_partial_update_user_missing_username_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(email="ali@gmail.com",bio="LOLyangm")
+    response = cleint.patch(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert "username" in data
+
+@pytest.mark.django_db
+def test_partial_update_user_missing_email_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",bio="LOLyangm")
+    response = cleint.patch(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert data['username'] == payload['username']
+    assert data['bio'] == payload['bio']
+        
+
+@pytest.mark.django_db
+def test_partial_update_user_missing_bio_return_200(getClient):
+    cleint,id = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",email="ali@gmail.com")
+    response = cleint.patch(f"/user/{id}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_200_OK
+    assert data['username'] == payload['username']
+    assert data['email'] == payload['email']
+@pytest.mark.django_db
+def test_partial_update_user_without_permission_return_401(getClient):
+    cleint1,id1 = getClient()
+    cleint2,id2 = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(username="ali",email="ali@gmail.com",bio="LOLyangm")
+    response = cleint1.put(f"/user/{id2}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+@pytest.mark.django_db
+def test_partial_update_user_without_permission_missing_username_return_401(getClient):
+    cleint1,id1 = getClient()
+    cleint2,id2 = getClient({"username":"hassan","email":"hassan@gmail.com","password":"123456!_"})
+    payload = dict(email="ali@gmail.com",bio="LOLyangm")
+    response = cleint1.put(f"/user/{id2}/",payload)
+    data = response.data
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED

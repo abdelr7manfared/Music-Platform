@@ -14,16 +14,6 @@ from knox.auth import AuthToken
 class CreateUser(ListCreateAPIView):
      queryset = User.objects.all()
      serializer_class = RegisterSerializer
-        # def get(slef,request):
-        #     allAlbum = User.objects.all()
-        #     serializers = UserRegisterSerializer(allAlbum,many=True,context={'request': request})
-        #     return Response(serializers.data)
-        # def post(self,request):
-        #     serializers = UserRegisterSerializer(data=request.data)
-        #     serializers.is_valid(raise_exception=True)
-        #     serializers.save()
-        #     return Response(serializers.data,status=status.HTTP_201_CREATED)
-
 
 class LoginUser(LoginView):
     permission_classes = (permissions.AllowAny,)
