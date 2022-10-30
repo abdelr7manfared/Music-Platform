@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentication/', include('authentication.urls')),
     path('artists/',include('artists.urls')),
+    path("albums/",include('albums.urls')),
     path("user/",include("users.urls"))
 
 ]

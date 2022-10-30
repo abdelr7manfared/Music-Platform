@@ -1,5 +1,3 @@
-from pickle import NONE
-from pydoc import cli
 import pytest
 from rest_framework.test import APIClient
 from users.models import User

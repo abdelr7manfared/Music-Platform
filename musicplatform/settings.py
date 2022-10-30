@@ -34,6 +34,8 @@ MEDIA_URL = 'media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3
 }
 
 INSTALLED_APPS = [
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'artists.apps.ArtistsConfig',
     'users.apps.UsersConfig',
     'imagekit',
+    'django_filters',
     'rest_framework',
     'knox',
     'rest_framework.authtoken',
