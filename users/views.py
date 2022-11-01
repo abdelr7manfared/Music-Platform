@@ -1,12 +1,11 @@
-from os import stat
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User
 from .serializers import UserSerializer
 from rest_framework.permissions import  IsAuthenticatedOrReadOnly
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 class UserDetail(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self,request,pk):
@@ -33,5 +32,6 @@ class UserDetail(APIView):
             serializers = UserSerializer(user,data=request.data)
             serializers.is_valid(raise_exception=True)
             serializers.save()
-            return Response(serializers.data,status.HTTP_200_OK)
+            return Response(serializers.data,status.HTTP_200_OK) 
         
+
