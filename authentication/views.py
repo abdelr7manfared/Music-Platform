@@ -8,7 +8,6 @@ from knox.views import LoginView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken
 class CreateUser(APIView):
-
         def post(self,request):
             serializers = RegisterSerializer(data=request.data)
             serializers.is_valid(raise_exception=True)

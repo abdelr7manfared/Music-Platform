@@ -21,7 +21,7 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentication/', include('authentication.urls')),
-    path('albums/',include('albums.urls')),
+    path('artists/',include('artists.urls')),
     path("user/",include("users.urls"))
 
 ]
