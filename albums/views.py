@@ -46,19 +46,19 @@ class Aproved_Album_ManuallyFilter(generics.ListAPIView):
     def get_queryset(self):
         query = Album.objects.filter(album_approved__exact=True)
         try:
-            cost_Max = self.request.query_params.get('cost__lte')
-            if cost_Max is not None:
-                cost_Max = int(cost_Max)        
-                query = query.filter(cost__lte = cost_Max)
+            cost__lte = self.request.query_params.get('cost__lte')
+            if cost__lte is not None:
+                cost__lte = int(cost__lte)        
+                query = query.filter(cost__lte = cost__lte)
         except (ValueError, TypeError):
-            raise ValidationErr("cost_Max Must be intger")        
+            raise ValidationErr("cost__lte Must be intger")        
         try:
-            cost_Min = self.request.query_params.get('cost__gte')
-            if cost_Min is not None:
-                cost_Min = int(cost_Min)
-                query = query.filter(cost__gte = cost_Min)
+            cost__gte = self.request.query_params.get('cost__gte')
+            if cost__gte is not None:
+                cost__gte = int(cost__gte)
+                query = query.filter(cost__gte = cost__gte)
         except (ValueError, TypeError):
-            raise ValidationErr("cost_Min Must be intger")
+            raise ValidationErr("cost__gte Must be intger")
         name = self.request.query_params.get('name')
         print(name)
         if name is not None:
