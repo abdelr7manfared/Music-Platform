@@ -9,16 +9,13 @@ def user():
     return User.objects.create_user('fared', 'fared@email.com', '12345678aA')
 @pytest.fixture
 def artist(user):
-    artist =  Artist.objects.create(Stage_name="artist1",Social_link_field= "https://www.instagram.com/artist1/",user=user)
-    return artist
+     return Artist.objects.create(Stage_name="artist1",Social_link_field= "https://www.instagram.com/artist1/",user=user)
 @pytest.fixture 
 def artist2(user):
-    artist =  Artist.objects.create(Stage_name="artist1",Social_link_field= "https://www.instagram.com/artist1/")
-    return artist
+    return Artist.objects.create(Stage_name="artist2",Social_link_field= "https://www.instagram.com/artist1/")
 @pytest.fixture
 def album(artist):
-    album = Album.objects.create(name='7ob fen', release_date='2028-07-14', cost=23, artist=artist, album_approved=True)
-    return album
+    return Album.objects.create(name='7ob fen', release_date='2028-07-14', cost=23, artist=artist, album_approved=True)
 @pytest.fixture
 def client():
     return APIClient()
