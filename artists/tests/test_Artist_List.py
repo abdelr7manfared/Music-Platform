@@ -7,7 +7,7 @@ from artists.models import Artist
 @pytest.mark.django_db
 def test_get_artist_return_200(client,artist):
         response = client.get("/artists/")
-        data = response.data
+        data = response.data['results']
         assert response.status_code == status.HTTP_200_OK
         assert "Stage_name" in data[0]
         assert "Social_link_field" in data[0]
