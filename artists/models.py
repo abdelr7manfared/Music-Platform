@@ -5,7 +5,7 @@ from users.models import User
 class Artist(models.Model):
     Stage_name = models.CharField(unique=True,max_length=255,blank=False)
     Social_link_field = models.URLField(null=False,blank=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE,null=True)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     class Meta:
         ordering = ('Stage_name',)
     def approved_albums(self):
