@@ -4,7 +4,8 @@ from artists.models import Artist
 from model_utils.models import TimeStampedModel
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-
+from .task import Congratulation_mail
+from django.db.models.signals import post_save
 from django.utils.html import mark_safe
 # Create your models here.
 class Album(TimeStampedModel):
@@ -15,6 +16,11 @@ class Album(TimeStampedModel):
     album_approved = models.BooleanField(default=False)
     def __str__(self):
         return (f"Name:{self.name},Cost:{self.cost},Song:{self.song_set.all()}")    
+
+def send_email(sender, instance,**kwargs):
+    Congratulation_mail.delay(instance.artist.id)
+
+post_save.connect(send_email, sender=Album)
     
 
 class Song(models.Model):
